@@ -1,4 +1,4 @@
-FROM ubuntu:20.04
+FROM ubuntu:22.04
 
 USER root
 WORKDIR /root
@@ -52,23 +52,23 @@ RUN export SED_RANGE="$(($(sed -n '\|enable bash completion in interactive shell
     sed -i -e "${SED_RANGE}"' s/^#//' /etc/bash.bashrc && \
     unset SED_RANGE
 
-# Create user "docker" with sudo powers
-RUN useradd -m docker && \
-    usermod -aG sudo docker && \
+# Create user "sun" with sudo powers
+RUN useradd -m sun && \
+    usermod -aG sudo sun && \
     echo '%sudo ALL=(ALL) NOPASSWD: ALL' >> /etc/sudoers && \
-    cp /root/.bashrc /home/docker/ && \
-    mkdir /home/docker/data && \
-    chown -R --from=root docker /home/docker
+    cp /root/.bashrc /home/sun/ && \
+    mkdir /home/sun/data && \
+    chown -R --from=root sun /home/sun
 
 # Use C.UTF-8 locale to avoid issues with ASCII encoding
 ENV LC_ALL=C.UTF-8
 ENV LANG=C.UTF-8
 
-WORKDIR /home/docker/data
-ENV HOME /home/docker
-ENV USER docker
-USER docker
-ENV PATH /home/docker/.local/bin:$PATH
+WORKDIR /home/sun
+ENV HOME /home/sun
+ENV USER sun
+USER sun
+ENV PATH /home/sun/.local/bin:$PATH
 # Avoid first use of sudo warning. c.f. https://askubuntu.com/a/22614/781671
 RUN touch $HOME/.sudo_as_admin_successful
 
